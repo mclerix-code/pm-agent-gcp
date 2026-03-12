@@ -9,4 +9,4 @@ gcloud run deploy pm-agent-ui \
   --source . \
   --region us-central1 \
   --allow-unauthenticated \
-  --set-env-vars="GCP_PROJECT_ID=$(gcloud config get-value project)"
+  --set-env-vars="GCP_PROJECT_ID=$(gcloud config get-value project),GCP_REGION=us-central1"

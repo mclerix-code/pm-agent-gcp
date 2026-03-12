@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const { GoogleGenAI } = require('@google/genai');
+const { GoogleAuth } = require('google-auth-library');
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -20,16 +21,21 @@ try {
     ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
     console.log("Initialized Gemini Client with API Key");
   } else {
-    // Fallback or ADC usage via Vertex
-    ai = new GoogleGenAI({
-      // If deploying to Vertex AI, un-comment strings below to configure
-      /* vertexai: { 
-           project: process.env.GCP_PROJECT_ID, 
-           location: process.env.GCP_REGION || 'us-central1'
-         }
-      */
+    // Explicitly configure Google Auth to request cloud-platform scope, 
+    // avoiding standard generativelanguage scope errors
+    const auth = new GoogleAuth({
+      scopes: 'https://www.googleapis.com/auth/cloud-platform'
     });
-    console.log("Initialized Gemini Client with Application Default Credentials");
+
+    ai = new GoogleGenAI({
+      vertexai: {
+        project: process.env.GCP_PROJECT_ID,
+        location: process.env.GCP_REGION || 'us-central1'
+      },
+      // Explicitly providing the authClient instance
+      authClient: auth
+    });
+    console.log("Initialized Gemini Client for Vertex AI with Application Default Credentials");
   }
 } catch (e) {
   console.error("Failed to initialize Gemini client:", e);
@@ -49,7 +55,7 @@ app.post('/api/chat', async (req, res) => {
     // [{ role: 'user', parts: [{ text: '...' }] }]
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'publishers/google/models/gemini-2.5-flash',
       contents: contents,
       config: {
         systemInstruction: systemInstruction.parts.text
