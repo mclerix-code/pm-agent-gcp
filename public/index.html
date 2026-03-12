@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schneider Electric - PM Agent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="se-header">
+            <div class="se-logo">
+                <div class="se-logo-mark"></div>
+                <span class="se-logo-text">Schneider Electric</span>
+            </div>
+            <div class="header-title">Product Manager Agent</div>
+            <div class="api-key-container">
+                <!-- Authentication is now handled securely by the backend -->
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Sidebar: Configuration & Info -->
+            <aside class="sidebar-left">
+                <div class="sidebar-section">
+                    <h3>About this Agent</h3>
+                    <p>This AI Product Manager is designed to guide you through a structured discovery process to
+                        generate a comprehensive Product Requirements Document (PRD).</p>
+                    <p>It follows a two-phase flow:</p>
+                    <ul>
+                        <li><strong>Core Discovery:</strong> 7 high-value questions.</li>
+                        <li><strong>Deep Dive:</strong> Targeted follow-ups.</li>
+                    </ul>
+                </div>
+                <div class="sidebar-section">
+                    <h3>Instructions</h3>
+                    <ol>
+                        <li>Enter your Gemini API key in the header. (For real responses)</li>
+                        <li>Describe your app idea in one or two lines to begin.</li>
+                        <li>Answer the agent's questions step-by-step.</li>
+                        <li>The agent will maintain working notes on the right and eventually generate a PRD.</li>
+                    </ol>
+                </div>
+                <div class="sidebar-section">
+                    <button id="clear-chat-btn" class="se-btn se-btn-outline se-btn-full">Clear Conversation</button>
+                </div>
+            </aside>
+
+            <!-- Chat Interface -->
+            <section class="chat-container">
+                <div class="chat-window" id="chat-window">
+                    <div class="chat-message agent-message">
+                        <div class="avatar agent-avatar">SE</div>
+                        <div class="message-content">
+                            <p>Hello! I am your Product Manager Agent. I'm here to help you scope your project and write
+                                a clear PRD.</p>
+                            <p>To begin our **Core Discovery**, could you please describe your app idea in one or two
+                                lines?</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-container">
+                    <textarea id="chat-input" placeholder="Describe your app idea..." rows="1"></textarea>
+                    <button id="send-btn" class="se-btn se-btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Right Sidebar: Working Notes -->
+            <aside class="sidebar-right">
+                <div class="working-notes-header">
+                    <h2>Working Notes</h2>
+                    <span class="status-indicator">Live</span>
+                </div>
+
+                <div class="note-card">
+                    <div class="note-card-header">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        <h3>Known Decisions</h3>
+                    </div>
+                    <ul class="note-list" id="known-decisions-list">
+                        <li class="empty-state">No decisions recorded yet.</li>
+                    </ul>
+                </div>
+
+                <div class="note-card">
+                    <div class="note-card-header">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                        </svg>
+                        <h3>Open Questions</h3>
+                    </div>
+                    <ul class="note-list" id="open-questions-list">
+                        <li class="empty-state">Awaiting discussion...</li>
+                    </ul>
+                </div>
+
+                <div class="note-card">
+                    <div class="note-card-header">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                        <h3>Assumptions</h3>
+                    </div>
+                    <ul class="note-list" id="assumptions-list">
+                        <li class="empty-state">No assumptions logged yet.</li>
+                    </ul>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Load marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
